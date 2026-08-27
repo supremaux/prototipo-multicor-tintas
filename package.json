@@ -1,0 +1,12 @@
+{
+  "name": "prototipo-multicor-tintas",
+  "version": "1.0.0",
+  "description": "Protótipo funcional de site para a Multicor Tintas",
+  "license": "ISC",
+  "author": "Daniel Carvalho | Suprema",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}

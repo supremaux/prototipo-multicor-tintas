@@ -1,0 +1,780 @@
+<!doctype html>
+<html lang="pt-BR" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex,nofollow" />
+    <title>MultiCor Tintas | A Sua Loja de Tintas na Av. Guaicurus</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans:wght@700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Alpine.js para Reatividade Interativa do Carrinho -->
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
+    ></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Unsplash -->
+    <link rel="preconnect" href="https://images.unsplash.com" />
+
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              brand: {
+                blue: "#004981",
+                darkBlue: "#013962",
+                yellow: "#FDCB02",
+                bgSec: "#F4F7F9",
+                border: "#D5E2EC",
+                textMain: "#013962",
+                textSec: "#526575",
+              },
+            },
+            fontFamily: {
+              title: ["Noto Sans", "sans-serif"],
+              body: ["Inter", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+        color: #013962;
+        background-color: #ffffff;
+      }
+      h1,
+      h2,
+      h3,
+      h4,
+      .font-title {
+        font-family: "Noto Sans", sans-serif;
+      }
+      [x-cloak] {
+        display: none !important;
+      }
+    </style>
+  </head>
+  <body
+    x-data="catalogoApp()"
+    class="antialiased bg-white min-h-screen flex flex-col justify-between"
+  >
+    <!-- Topbar Institucional -->
+    <div
+      class="bg-brand-darkBlue text-white text-xs py-2 px-4 border-b border-white/10"
+    >
+      <div
+        class="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2"
+      >
+        <div class="flex items-center gap-4">
+          <span class="flex items-center gap-1"
+            ><i data-lucide="map-pin" class="w-3.5 h-3.5 text-brand-yellow"></i>
+            Av. Guaicurus, 3960 - Alves Pereira</span
+          >
+          <span class="hidden md:flex items-center gap-1"
+            ><i data-lucide="clock" class="w-3.5 h-3.5 text-brand-yellow"></i>
+            Seg a Sex: 07h às 17h30</span
+          >
+        </div>
+        <div class="flex items-center gap-3">
+          <a
+            href="tel:6733880507"
+            class="hover:text-brand-yellow transition flex items-center gap-1"
+            ><i data-lucide="phone" class="w-3.5 h-3.5"></i> (67) 3388-0507</a
+          >
+        </div>
+      </div>
+    </div>
+
+    <!-- Header / Navbar Principal -->
+    <header
+      class="sticky top-0 z-40 bg-white border-b border-brand-border shadow-sm"
+    >
+      <div
+        class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between"
+      >
+        <!-- Logo -->
+        <a href="#" class="flex items-center gap-3">
+          <img
+            src="https://res.cloudinary.com/dnzfvkgag/image/upload/v1787830099/logo_multicor_yl9amc.png"
+            alt="MultiCor Tintas"
+            width="100"
+            height="40"
+            class="h-11 w-auto object-contain"
+            loading="lazy"
+            decoding="async"
+            fetchpriority="low"
+          />
+        </a>
+
+        <!-- Menu Navegação (Links Cegos/Smooth Scroll) -->
+        <nav
+          class="hidden md:flex items-center gap-8 font-medium text-sm text-brand-textMain"
+        >
+          <a href="#inicio" class="hover:text-brand-blue transition">Início</a>
+          <a href="#diferenciais" class="hover:text-brand-blue transition"
+            >Sobre Nós</a
+          >
+          <a href="#catalogo" class="hover:text-brand-blue transition"
+            >Catálogo de Produtos</a
+          >
+          <a href="#contato" class="hover:text-brand-blue transition"
+            >Onde Estamos</a
+          >
+        </nav>
+
+        <!-- CTA Flutuante de Orçamento / Carrinho -->
+        <button
+          @click="cartOpen = true"
+          class="relative bg-brand-yellow text-brand-darkBlue font-bold px-4 py-2.5 rounded-xl flex items-center gap-2 hover:brightness-105 transition shadow-sm"
+        >
+          <i data-lucide="shopping-bag" class="w-5 h-5"></i>
+          <span class="hidden sm:inline">Minha Lista</span>
+          <span
+            x-show="cart.length > 0"
+            class="absolute -top-2 -right-2 bg-brand-blue text-white text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center border-2 border-white"
+            x-text="cartItemCount()"
+          ></span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Section: Hero Institucional -->
+    <section
+      id="inicio"
+      class="relative bg-gradient-to-r from-brand-darkBlue via-brand-blue to-brand-darkBlue text-white py-16 md:py-24 px-4 overflow-hidden"
+    >
+      <div
+        class="max-w-6xl mx-auto grid md:grid-cols-2 gap-10 items-center relative z-10"
+      >
+        <div class="space-y-6 text-center md:text-left">
+          <div
+            class="inline-flex items-center gap-2 bg-white/10 px-3.5 py-1.5 rounded-full text-xs font-semibold text-brand-yellow border border-white/15"
+          >
+            <i data-lucide="shield-check" class="w-4 h-4"></i> As melhores
+            marcas de tintas em Campo Grande
+          </div>
+          <h1 class="text-3xl md:text-5xl font-black leading-tight font-title">
+            Sua obra com a cor perfeita e o melhor preço.
+          </h1>
+          <p class="text-base text-blue-100 max-w-xl">
+            Linha completa de tintas residenciais, automotivas e industriais na
+            região da Guaicurus. Monte sua cotação online e receba atendimento
+            rápido no WhatsApp.
+          </p>
+          <div
+            class="flex flex-col sm:flex-row gap-3 justify-center md:justify-start"
+          >
+            <a
+              href="#catalogo"
+              class="bg-brand-yellow text-brand-darkBlue font-bold px-6 py-3.5 rounded-xl hover:brightness-105 transition text-center shadow-md flex items-center justify-center gap-2"
+            >
+              <i data-lucide="search" class="w-5 h-5"></i>
+              Ver Catálogo Completo
+            </a>
+            <a
+              href="#contato"
+              class="bg-white/10 hover:bg-white/20 text-white border border-white/20 font-bold px-6 py-3.5 rounded-xl transition text-center flex items-center justify-center gap-2"
+            >
+              <i data-lucide="map-pin" class="w-5 h-5"></i>
+              Visitar Loja Física
+            </a>
+          </div>
+        </div>
+
+        <div class="relative">
+          <div
+            class="rounded-2xl overflow-hidden shadow-2xl border-4 border-white/10"
+          >
+            <img
+              src="https://plus.unsplash.com/premium_photo-1726804941954-847793e6c257?q=80&w=1183&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              alt="Loja de Tintas"
+              width="685"
+              height="450"
+              class="w-full h-80 md:h-96 object-cover"
+              loading="eager"
+              decoding="async"
+              fetchpriority="high"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section: Diferenciais -->
+    <section
+      id="diferenciais"
+      class="py-12 bg-brand-bgSec border-b border-brand-border"
+    >
+      <div class="max-w-6xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div
+          class="bg-white p-6 rounded-2xl border border-brand-border shadow-sm flex items-start gap-4"
+        >
+          <div class="p-3 bg-brand-bgSec rounded-xl text-brand-blue">
+            <i data-lucide="truck" class="w-6 h-6"></i>
+          </div>
+          <div>
+            <h3 class="font-bold text-brand-darkBlue font-title">
+              Agilidade na Entrega
+            </h3>
+            <p class="text-xs text-brand-textSec mt-1">
+              Atendimento focado em Campo Grande com entrega rápida para a sua
+              obra.
+            </p>
+          </div>
+        </div>
+        <div
+          class="bg-white p-6 rounded-2xl border border-brand-border shadow-sm flex items-start gap-4"
+        >
+          <div class="p-3 bg-brand-bgSec rounded-xl text-brand-blue">
+            <i data-lucide="palette" class="w-6 h-6"></i>
+          </div>
+          <div>
+            <h3 class="font-bold text-brand-darkBlue font-title">
+              Variedade de Marcas
+            </h3>
+            <p class="text-xs text-brand-textSec mt-1">
+              Trabalhamos com Coral, Brasilux, Futura, Anjo, Merko e muito mais.
+            </p>
+          </div>
+        </div>
+        <div
+          class="bg-white p-6 rounded-2xl border border-brand-border shadow-sm flex items-start gap-4"
+        >
+          <div class="p-3 bg-brand-bgSec rounded-xl text-brand-blue">
+            <i data-lucide="message-square" class="w-6 h-6"></i>
+          </div>
+          <div>
+            <h3 class="font-bold text-brand-darkBlue font-title">
+              Orçamento Inteligente
+            </h3>
+            <p class="text-xs text-brand-textSec mt-1">
+              Monte sua lista no site e envie direto no WhatsApp da equipe de
+              vendas.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section: Catálogo de Produtos para Montar Lista -->
+    <section id="catalogo" class="py-16 px-4 max-w-6xl mx-auto w-full">
+      <div class="text-center max-w-2xl mx-auto mb-10 space-y-2">
+        <span class="text-xs font-bold text-brand-blue uppercase tracking-wider"
+          >Catálogo Online</span
+        >
+        <h2
+          class="text-2xl md:text-3xl font-extrabold text-brand-darkBlue font-title"
+        >
+          Selecione os produtos para sua cotação
+        </h2>
+        <p class="text-sm text-brand-textSec">
+          Adicione as tintas e complementos à sua lista e solicite o orçamento
+          sem compromisso.
+        </p>
+      </div>
+
+      <!-- Filtros de Categorias -->
+      <div
+        class="flex justify-center gap-2 overflow-x-auto pb-4 mb-8 scrollbar-none"
+      >
+        <template x-for="cat in categorias" :key="cat">
+          <button
+            @click="categoriaAtiva = cat"
+            :class="categoriaAtiva === cat ? 'bg-brand-blue text-white border-brand-blue' : 'bg-brand-bgSec text-brand-textSec border-brand-border hover:bg-white'"
+            class="px-5 py-2.5 rounded-xl text-sm font-semibold border transition shadow-sm whitespace-nowrap"
+          >
+            <span x-text="cat"></span>
+          </button>
+        </template>
+      </div>
+
+      <!-- Grid de Produtos -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <template x-for="produto in produtosFiltrados" :key="produto.id">
+          <div
+            class="bg-white rounded-2xl border border-brand-border overflow-hidden shadow-sm hover:shadow-md transition flex flex-col justify-between"
+          >
+            <div>
+              <div class="relative h-44 bg-brand-bgSec overflow-hidden">
+                <img
+                  :src="produto.imagem"
+                  :alt="produto.nome"
+                  class="w-full h-full object-cover"
+                />
+                <span
+                  class="absolute top-3 left-3 bg-white/90 backdrop-blur-md text-brand-darkBlue text-xs font-bold px-2.5 py-1 rounded-lg border border-brand-border"
+                  x-text="produto.marca"
+                ></span>
+              </div>
+              <div class="p-4 space-y-1">
+                <span
+                  class="text-[10px] text-brand-textSec font-bold uppercase tracking-wider"
+                  x-text="produto.categoria"
+                ></span>
+                <h3
+                  class="font-bold text-brand-darkBlue text-sm leading-snug"
+                  x-text="produto.nome"
+                ></h3>
+                <p
+                  class="text-xs text-brand-textSec line-clamp-2"
+                  x-text="produto.descricao"
+                ></p>
+              </div>
+            </div>
+
+            <div class="p-4 pt-0 space-y-3">
+              <div
+                class="flex items-center justify-between text-xs text-brand-textSec border-t border-brand-border/60 pt-2.5"
+              >
+                <span class="font-medium" x-text="produto.tamanho"></span>
+                <span class="text-brand-blue font-semibold"
+                  >Consulte cores</span
+                >
+              </div>
+
+              <button
+                @click="adicionarAoCarrinho(produto)"
+                class="w-full bg-brand-yellow hover:brightness-105 text-brand-darkBlue font-bold py-2 px-3 rounded-xl flex items-center justify-center gap-2 text-xs transition shadow-sm"
+              >
+                <i data-lucide="plus-circle" class="w-4 h-4"></i>
+                <span>Adicionar à Lista</span>
+              </button>
+            </div>
+          </div>
+        </template>
+      </div>
+    </section>
+
+    <!-- Section: Banner CTA Personalizado -->
+    <section class="bg-brand-bgSec border-y border-brand-border py-12 px-4">
+      <div
+        class="max-w-4xl mx-auto bg-gradient-to-r from-brand-darkBlue to-brand-blue text-white rounded-3xl p-8 md:p-10 shadow-xl flex flex-col md:flex-row items-center justify-between gap-6"
+      >
+        <div class="space-y-2 text-center md:text-left">
+          <h3 class="text-xl md:text-2xl font-bold font-title">
+            Precisa de um orçamento sob medida?
+          </h3>
+          <p class="text-xs md:text-sm text-blue-100 max-w-lg">
+            Nossa equipe técnica ajuda você a calcular a quantidade exata de
+            tinta para sua obra, evitando desperdício.
+          </p>
+        </div>
+        <a
+          href="https://wa.me/556733880507?text=Olá!%20Gostaria%20de%20um%20orçamento%20personalizado%20para%20minha%20obra."
+          target="_blank"
+          class="whitespace-nowrap bg-emerald-500 hover:bg-emerald-600 text-white font-bold px-6 py-3.5 rounded-xl transition flex items-center gap-2 shadow-md"
+        >
+          <i data-lucide="message-circle" class="w-5 h-5"></i>
+          Falar com Consultor
+        </a>
+      </div>
+    </section>
+
+    <!-- Section: Onde Estamos -->
+    <section id="contato" class="py-16 px-4 max-w-6xl mx-auto w-full">
+      <div class="grid md:grid-cols-2 gap-8 items-center">
+        <div class="space-y-4">
+          <span
+            class="text-xs font-bold text-brand-blue uppercase tracking-wider"
+            >Localização</span
+          >
+          <h2
+            class="text-2xl md:text-3xl font-extrabold text-brand-darkBlue font-title"
+          >
+            Venha conhecer nossa loja física
+          </h2>
+          <p class="text-sm text-brand-textSec">
+            Estamos localizados na maior e mais movimentada avenida da região
+            sul de Campo Grande, prontos para te atender.
+          </p>
+
+          <div class="space-y-3 pt-2">
+            <div class="flex items-start gap-3">
+              <i
+                data-lucide="map-pin"
+                class="w-5 h-5 text-brand-blue flex-shrink-0 mt-0.5"
+              ></i>
+              <span class="text-sm text-brand-textMain"
+                >Av. Guaicurus, 3960 - Alves Pereira, Campo Grande - MS</span
+              >
+            </div>
+            <div class="flex items-center gap-3">
+              <i
+                data-lucide="phone"
+                class="w-5 h-5 text-brand-blue flex-shrink-0"
+              ></i>
+              <span class="text-sm text-brand-textMain"
+                >(67) 3388-0507 / 3388-0509</span
+              >
+            </div>
+            <div class="flex items-center gap-3">
+              <i
+                data-lucide="clock"
+                class="w-5 h-5 text-brand-blue flex-shrink-0"
+              ></i>
+              <span class="text-sm text-brand-textMain"
+                >Segunda a Sexta: 07h às 17h30 | Sábado: 08h às 12h</span
+              >
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="bg-brand-bgSec rounded-2xl border border-brand-border p-4 h-64 flex flex-col justify-center items-center text-center space-y-3"
+        >
+          <i data-lucide="map" class="w-10 h-10 text-brand-blue"></i>
+          <h4 class="font-bold text-brand-darkBlue">Mapa de Localização</h4>
+          <p class="text-xs text-brand-textSec max-w-xs">
+            Clique no botão abaixo para abrir a rota direto no Google Maps.
+          </p>
+          <a
+            href="https://maps.google.com"
+            target="_blank"
+            class="bg-brand-blue text-white text-xs font-bold px-4 py-2 rounded-xl hover:bg-brand-darkBlue transition"
+            >Abrir no Google Maps</a
+          >
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer Institucional -->
+    <footer
+      class="bg-brand-darkBlue text-white border-t border-white/10 pt-12 pb-6 px-4 mt-auto"
+    >
+      <div
+        class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 pb-10 border-b border-white/10"
+      >
+        <div class="space-y-3 md:col-span-1">
+          <!-- Logo -->
+          <a href="#" class="flex items-center gap-3">
+            <img
+              src="https://res.cloudinary.com/dnzfvkgag/image/upload/v1787830099/logo_multicor_yl9amc.png"
+              alt="MultiCor Tintas"
+              width="100"
+              height="40"
+              class="h-11 w-auto object-contain"
+              loading="lazy"
+              decoding="async"
+              fetchpriority="low"
+            />
+          </a>
+          <p class="text-xs text-blue-200">
+            Há anos colorindo o seu dia a dia na região sul de Campo Grande.
+          </p>
+          <!-- Aviso de que esse site é um protótipo  -->
+          <p class="text-xs text-blue-200">
+            Este site é um protótipo funcional para a Multicor Tintas.
+          </p>
+        </div>
+
+        <div class="space-y-2 text-xs">
+          <h4 class="font-bold text-brand-yellow font-title text-sm mb-3">
+            Links Rápidos
+          </h4>
+          <p>
+            <a href="#inicio" class="hover:text-brand-yellow transition"
+              >Início</a
+            >
+          </p>
+          <p>
+            <a href="#diferenciais" class="hover:text-brand-yellow transition"
+              >Sobre Nós</a
+            >
+          </p>
+          <p>
+            <a href="#catalogo" class="hover:text-brand-yellow transition"
+              >Catálogo de Produtos</a
+            >
+          </p>
+          <p>
+            <a href="#contato" class="hover:text-brand-yellow transition"
+              >Onde Estamos</a
+            >
+          </p>
+        </div>
+
+        <div class="space-y-2 text-xs">
+          <h4 class="font-bold text-brand-yellow font-title text-sm mb-3">
+            Principais Marcas
+          </h4>
+          <p>Coral Tintas</p>
+          <p>Brasilux Tintas</p>
+          <p>Futura Tintas</p>
+          <p>Anjo Tintas</p>
+        </div>
+
+        <div class="space-y-2 text-xs">
+          <h4 class="font-bold text-brand-yellow font-title text-sm mb-3">
+            Contato
+          </h4>
+          <p>Av. Guaicurus, 3960 - Alves Pereira</p>
+          <p>Campo Grande - MS</p>
+          <p>Fone: (67) 3388-0507</p>
+        </div>
+      </div>
+
+      <div
+        class="max-w-6xl mx-auto pt-6 flex flex-col md:flex-row items-center justify-between text-[11px] text-blue-200 gap-3"
+      >
+        <p>© 2026 MultiCor Tintas — Todos os direitos reservados.</p>
+        <p>
+          Desenvolvido com alta performance por
+          <a
+            href="https://supremaux.com"
+            target="_blank"
+            class="font-bold text-white hover:underline"
+            >SupremaUX</a
+          >
+        </p>
+      </div>
+    </footer>
+
+    <!-- Drawer do Carrinho / Lista de Orçamento -->
+    <div x-show="cartOpen" class="fixed inset-0 z-50 overflow-hidden" x-cloak>
+      <div
+        class="absolute inset-0 bg-brand-darkBlue/60 backdrop-blur-sm transition-opacity"
+        @click="cartOpen = false"
+      ></div>
+
+      <div class="fixed inset-y-0 right-0 max-w-full flex pl-10">
+        <div
+          class="w-screen max-w-md bg-white shadow-2xl flex flex-col justify-between"
+        >
+          <div
+            class="p-4 bg-brand-darkBlue text-white flex items-center justify-between"
+          >
+            <div class="flex items-center gap-2">
+              <i
+                data-lucide="clipboard-list"
+                class="w-5 h-5 text-brand-yellow"
+              ></i>
+              <h2 class="font-title text-lg font-bold">Lista de Orçamento</h2>
+            </div>
+            <button
+              @click="cartOpen = false"
+              class="text-white/80 hover:text-white"
+            >
+              <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+          </div>
+
+          <div class="p-4 flex-1 overflow-y-auto space-y-4">
+            <template x-if="cart.length === 0">
+              <div class="text-center py-12 space-y-3">
+                <div
+                  class="w-16 h-16 bg-brand-bgSec rounded-full flex items-center justify-center mx-auto text-brand-textSec"
+                >
+                  <i data-lucide="shopping-bag" class="w-8 h-8"></i>
+                </div>
+                <p class="text-brand-textSec font-medium text-sm">
+                  Sua lista está vazia.
+                </p>
+                <p class="text-xs text-brand-textSec">
+                  Navegue pelo catálogo e adicione itens para montar sua
+                  cotação.
+                </p>
+              </div>
+            </template>
+
+            <template x-for="(item, index) in cart" :key="index">
+              <div
+                class="flex items-center justify-between border-b border-brand-border pb-3"
+              >
+                <div class="space-y-1 flex-1 pr-2">
+                  <h4
+                    class="font-bold text-sm text-brand-darkBlue"
+                    x-text="item.nome"
+                  ></h4>
+                  <p
+                    class="text-xs text-brand-textSec"
+                    x-text="item.marca + ' • ' + item.tamanho"
+                  ></p>
+                </div>
+                <div class="flex items-center gap-2">
+                  <div
+                    class="flex items-center border border-brand-border rounded-lg overflow-hidden"
+                  >
+                    <button
+                      @click="diminuirQtd(index)"
+                      class="px-2 py-1 bg-brand-bgSec hover:bg-brand-border text-xs font-bold"
+                    >
+                      -
+                    </button>
+                    <span
+                      class="px-2 text-xs font-bold"
+                      x-text="item.qtd"
+                    ></span>
+                    <button
+                      @click="aumentarQtd(index)"
+                      class="px-2 py-1 bg-brand-bgSec hover:bg-brand-border text-xs font-bold"
+                    >
+                      +
+                    </button>
+                  </div>
+                  <button
+                    @click="removerItem(index)"
+                    class="text-red-500 hover:text-red-700 p-1"
+                  >
+                    <i data-lucide="trash-2" class="w-4 h-4"></i>
+                  </button>
+                </div>
+              </div>
+            </template>
+          </div>
+
+          <div
+            class="p-4 border-t border-brand-border bg-brand-bgSec space-y-3"
+          >
+            <div class="space-y-2">
+              <label class="block text-xs font-semibold text-brand-darkBlue"
+                >Seu Nome (Opcional):</label
+              >
+              <input
+                type="text"
+                x-model="clienteNome"
+                placeholder="Ex: João Silva"
+                class="w-full text-sm p-2.5 rounded-xl border border-brand-border focus:outline-none focus:border-brand-blue"
+              />
+            </div>
+
+            <button
+              @click="enviarWhatsApp()"
+              :disabled="cart.length === 0"
+              class="w-full bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white font-bold py-3 px-4 rounded-xl flex items-center justify-center gap-2 shadow-md transition"
+            >
+              <i data-lucide="message-square" class="w-5 h-5"></i>
+              <span>Enviar Orçamento via WhatsApp</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Script Alpine.js -->
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        lucide.createIcons();
+      });
+
+      function catalogoApp() {
+        return {
+          cartOpen: false,
+          categoriaAtiva: "Todos",
+          clienteNome: "",
+          categorias: [
+            "Todos",
+            "Tintas Acrílicas",
+            "Piso & Fachada",
+            "Esmaltes",
+            "Acessórios",
+          ],
+          cart: [],
+          produtos: [
+            {
+              id: 1,
+              nome: "Látex Brasilar Standard 18LT",
+              marca: "Brasilux",
+              categoria: "Tintas Acrílicas",
+              tamanho: "Balde 18 Litros",
+              descricao:
+                "Excelente rendimento e cobertura para ambientes internos e externos.",
+              imagem:
+                "https://http2.mlstatic.com/D_NQ_NP_747689-MLB93399199633_092025-O-tinta-acrilica-standard-branco-neve-18-lt-brasilux.webp?auto=format&fit=crop&w=600&q=80",
+            },
+            {
+              id: 2,
+              nome: "Tinta Pinta Piso Premium 3.6LT",
+              marca: "Coral",
+              categoria: "Piso & Fachada",
+              tamanho: "Galão 3.6 Litros",
+              descricao:
+                "Alta resistência ao tráfego de pessoas e carros. Proteção duradoura.",
+              imagem:
+                "https://http2.mlstatic.com/D_NQ_NP_2X_731331-MLA100049883721_122025-F.webp?auto=format&fit=crop&w=600&q=80",
+            },
+            {
+              id: 3,
+              nome: "Látex Futura Super Rendimento",
+              marca: "Futura",
+              categoria: "Tintas Acrílicas",
+              tamanho: "Balde 18 Litros",
+              descricao:
+                "Acabamento fosco aveludado com altíssima lavabilidade.",
+              imagem:
+                "https://futuratintas.com.br/wp-content/uploads/2021/12/Standard_Acriliica_Fosca_Super_Rendimento.jpg?auto=format&fit=crop&w=600&q=80",
+            },
+            {
+              id: 4,
+              nome: "Esmalte Sintético Extra Rápido",
+              marca: "Anjo",
+              categoria: "Esmaltes",
+              tamanho: "Galão 3.6 Litros",
+              descricao:
+                "Ideal para superfícies de madeira e metal com secagem rápida.",
+              imagem:
+                "https://d2byg56fbf6u3p.cloudfront.net/317/imagens/12330528846853495d06d165.11436300.1750288733_l.jpg?auto=format&fit=crop&w=600&q=80",
+            },
+          ],
+          get produtosFiltrados() {
+            if (this.categoriaAtiva === "Todos") return this.produtos;
+            return this.produtos.filter(
+              (p) => p.categoria === this.categoriaAtiva,
+            );
+          },
+          adicionarAoCarrinho(produto) {
+            let item = this.cart.find((i) => i.id === produto.id);
+            if (item) {
+              item.qtd++;
+            } else {
+              this.cart.push({ ...produto, qtd: 1 });
+            }
+            this.cartOpen = true;
+          },
+          aumentarQtd(index) {
+            this.cart[index].qtd++;
+          },
+          diminuirQtd(index) {
+            if (this.cart[index].qtd > 1) {
+              this.cart[index].qtd--;
+            } else {
+              this.removerItem(index);
+            }
+          },
+          removerItem(index) {
+            this.cart.splice(index, 1);
+          },
+          cartItemCount() {
+            return this.cart.reduce((total, i) => total + i.qtd, 0);
+          },
+          enviarWhatsApp() {
+            let num = "556733880507";
+            let msg = `Olá equipe MultiCor Tintas! Montei uma lista de orçamento pelo site:\n\n`;
+            if (this.clienteNome) msg += `*Cliente:* ${this.clienteNome}\n\n`;
+            msg += `*Produtos Solicitados:*\n`;
+
+            this.cart.forEach((i) => {
+              msg += `• ${i.qtd}x ${i.nome} (${i.marca} - ${i.tamanho})\n`;
+            });
+
+            msg += `\nGostaria de verificar disponibilidade de cores e valor total.`;
+
+            let url = `https://wa.me/${num}?text=${encodeURIComponent(msg)}`;
+            window.open(url, "_blank");
+          },
+        };
+      }
+    </script>
+  </body>
+</html>
